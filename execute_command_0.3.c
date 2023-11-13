@@ -23,7 +23,7 @@ void execute_command(char *input)
     if (child_pid == 0) /* Child process */
     {
         char *token;
-        char *args[2];
+        char *args[10]; /* Assuming a maximum of 10 arguments */
         int i = 0;
 
         /* Tokenize the input to get the command and arguments */
@@ -34,6 +34,13 @@ void execute_command(char *input)
             token = strtok(NULL, " ");
         }
         args[i] = NULL; /* Null-terminate the argument list */
+
+        /* Check if the command exists in the PATH */
+        if (access(args[0], X_OK) == -1)
+        {
+            printf(":) %s: command not found\n", args[0]);
+            exit(EXIT_FAILURE);
+        }
 
         execvp(args[0], args); /* Execute the command with arguments */
         perror(args[0]); /* If execvp fails */
@@ -46,7 +53,7 @@ void execute_command(char *input)
 
         if (WIFEXITED(status) && WEXITSTATUS(status) == 127)
         {
-            printf("%s: command not found\n", input);
+            printf(":) %s: command not found\n", input);
         }
     }
 }

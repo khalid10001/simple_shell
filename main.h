@@ -1,14 +1,9 @@
-#ifndef _MAIN_H_
-#define _MAIN_H_
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/wait.h>
+#ifndef MAIN_H
+#define MAIN_H
 
 #define MAX_INPUT_SIZE 1024
 
-int execute_command(char *input);
+/* Function Declarations */
+void execute_command(char *input);
 
-#endif /* _MAIN_H_ */
+#endif /* MAIN_H */
