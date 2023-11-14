@@ -7,7 +7,7 @@
 #include <sys/wait.h>
 
 /**
- * main - Simple Shell 1.0
+ * main - Simple Shell 0.4
  * Return: Always 0.
  */
 int main(void)
