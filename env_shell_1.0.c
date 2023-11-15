@@ -24,7 +24,7 @@ size_t environ_size(void)
  *
  * Return: 0 on success, -1 on failure
  */
-int _setenv(const char *name, const char *value, int overwrite)
+int _setenviron(const char *name, const char *value, int overwrite)
 {
     size_t i, name_len = strlen(name);
     char **new_environ = NULL;
@@ -69,7 +69,7 @@ int _setenv(const char *name, const char *value, int overwrite)
  *
  * Return: 0 on success, -1 on failure
  */
-int _unsetenv(const char *name)
+int _unsetenviron(const char *name)
 {
     size_t i, name_len = strlen(name);
     char **new_env = NULL;

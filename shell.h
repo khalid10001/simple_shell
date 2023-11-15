@@ -16,6 +16,8 @@ void print_env(void);
 /* 1. env vs environ */
 void env_vs_environ(void);
 extern char **environ;
+int _setenviron(const char *name, const char *value, int overwrite);
+int _unsetenviron(const char *name);
 /* 2. getenv() */
 char *_getenv(const char *name);
 
