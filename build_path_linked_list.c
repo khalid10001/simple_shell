@@ -11,9 +11,41 @@
     return 0;
 }
 */
-void add_node_end(path_list_t **head, char *directory);
+void *add_node_end(path_list_t **head, char *directory);
 void print_path_list(path_list_t *head);
 void free_path_list(path_list_t *head);
+
+/**
+ * add_node_end - Add a new node at the end of the linked list
+ * @head: A pointer to the head of the linked list
+ * @directory: The directory to be added to the linked list
+ * Return: A pointer to the newly added node
+ */
+void *add_node_end(path_list_t **head, char *directory)
+{
+    path_list_t *new_node = malloc(sizeof(path_list_t));
+    path_list_t *last = *head;
+
+    if (new_node == NULL) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
+
+    new_node->directory = strdup(directory);
+    new_node->next = NULL;
+
+    if (*head == NULL) {
+        *head = new_node;
+    } else {
+        while (last->next != NULL) {
+            last = last->next;
+        }
+        last->next = new_node;
+    }
+
+    return new_node;
+}
+
 
 /**
  * build_path_linked_list - Builds a linked list of directories in the PATH.
@@ -46,37 +78,6 @@ void build_path_linked_lists(void)
     {
         printf("PATH variable not found.\n");
     }
-}
-
-/**
- * add_node_end - Add a new node at the end of the linked list
- * @head: A pointer to the head of the linked list
- * @directory: The directory to be added to the linked list
- * Return: A pointer to the newly added node
- */
-path_list_t *ad_node_end(path_list_t **head, char *directory)
-{
-    path_list_t *new_node = malloc(sizeof(path_list_t));
-    path_list_t *last = *head;
-
-    if (new_node == NULL) {
-        perror("malloc");
-        exit(EXIT_FAILURE);
-    }
-
-    new_node->directory = strdup(directory);
-    new_node->next = NULL;
-
-    if (*head == NULL) {
-        *head = new_node;
-    } else {
-        while (last->next != NULL) {
-            last = last->next;
-        }
-        last->next = new_node;
-    }
-
-    return new_node;
 }
 
 /**
