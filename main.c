@@ -1,5 +1,9 @@
 #include "shell.h"
 
+void display_prompt(void);
+char *get_input(char *input);
+int execute_command(const char *command);
+
 /**
  * main - Entry point for the simple_shell program.
  * Return: Always 0.
@@ -67,7 +71,18 @@ int execute_command(const char *command)
 
     if (child_pid == 0) /* Child process */
     {
-        if (execvp(command, NULL) == -1)
+	/* Split the command string into tokens */
+        char **args = (char **)malloc(2 * sizeof(char *));
+        if (args == NULL)
+        {
+            perror("malloc");
+            exit(EXIT_FAILURE);
+        }
+
+        args[0] = (char *)command;
+        args[1] = NULL;
+
+        if (execvp(command, args) == -1)
         {
             perror(command);
             exit(EXIT_FAILURE);

@@ -11,10 +11,13 @@ int main(void)
     return 0;
 }
 
+void print_path_list(path_list_t *head);
+void free_path_list(path_list_t *head);
+
 /**
  * build_path_linked_list - Builds a linked list of directories in the PATH.
  */
-void build_path_linked_list(void)
+void build_path_linked_lists(void)
 {
     char *path_variable = "PATH";
     char *path_value = _getenv(path_variable);

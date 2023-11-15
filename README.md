@@ -1,6 +1,6 @@
 # Simple Shell
 
-A basic implementation of a shell in C. This project is part of the [Operating Systems](https://en.wikipedia.org/wiki/Operating_system) course at [Your University Name].
+A basic implementation of a shell in C. This project is part of the [Operating Systems](https://en.wikipedia.org/wiki/Operating_system) course at ALX Africa course.
 
 ## Table of Contents
 

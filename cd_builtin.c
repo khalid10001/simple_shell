@@ -1,5 +1,7 @@
 #include "shell.h"
 
+int _cd(const char *directory);
+
 /**
  * main - Entry point for the cd_builtin program.
  * Return: Always 0.
@@ -27,7 +29,7 @@ int main(void)
  */
 int _cd(const char *directory)
 {
-    char *new_directory;
+    const char *new_directory;
 
     if (directory == NULL)
     {
