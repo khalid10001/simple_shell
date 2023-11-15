@@ -4,7 +4,7 @@
  * main - Entry point for the setenv program.
  * Return: Always 0.
  */
-int main(void)
+/* int main(void)
 {
     char *variable = "MY_VARIABLE";
     char *value = "my_value";
@@ -19,7 +19,7 @@ int main(void)
     }
 
     return 0;
-}
+    }*/
 
 /**
  * _setenv - Changes or adds an environment variable.

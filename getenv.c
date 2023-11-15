@@ -4,7 +4,7 @@
  * main - Entry point for the getenv program.
  * Return: Always 0.
  */
-int main(void)
+/* int main(void)
 {
     char *variable_name = "HOME";
     char *value;
@@ -17,7 +17,7 @@ int main(void)
         printf("Variable %s not found.\n", variable_name);
 
     return 0;
-}
+    }*/
 
 /**
  * _getenv - Gets the value of an environment variable.

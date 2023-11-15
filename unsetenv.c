@@ -4,7 +4,7 @@
  * main - Entry point for the unsetenv program.
  * Return: Always 0.
  */
-int main(void)
+/* int main(void)
 {
     char *variable = "MY_VARIABLE";
 
@@ -18,7 +18,7 @@ int main(void)
     }
 
     return 0;
-}
+    }*/ 
 
 /**
  * _unsetenv - Deletes the variable name from the environment.

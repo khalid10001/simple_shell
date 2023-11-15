@@ -4,11 +4,11 @@
  * main - Entry point for the printenv program.
  * Return: Always 0.
  */
-int main(void)
+/*int main(void)
 {
     print_env();
     return 0;
-}
+    }*/
 
 /**
  * print_env - Prints the environment using the global variable environ.

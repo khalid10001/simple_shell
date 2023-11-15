@@ -15,7 +15,7 @@ void print_env(void);
 
 /* 1. env vs environ */
 void env_vs_environ(void);
-
+extern char **environ;
 /* 2. getenv() */
 char *_getenv(const char *name);
 
@@ -29,6 +29,17 @@ typedef struct PathNode {
 } PathNode;
 
 PathNode *build_path_linked_list(void);
+
+/* Definition of a structure to represent a node in the linked list */
+typedef struct path_list {
+    char *directory;
+    struct path_list *next;
+} path_list_t;
+
+/* Function prototypes */
+void add_node_end(path_list_t **head, char *directory);
+void print_path_list(path_list_t *head);
+void free_path_list(path_list_t *head);
 
 /* 5. setenv */
 int _setenv(const char *name, const char *value, int overwrite);

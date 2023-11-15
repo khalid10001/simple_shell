@@ -6,7 +6,7 @@ int _cd(const char *directory);
  * main - Entry point for the cd_builtin program.
  * Return: Always 0.
  */
-int main(void)
+/* int main(void)
 {
     char *directory = "/path/to/directory";
 
@@ -20,7 +20,7 @@ int main(void)
     }
 
     return 0;
-}
+    }*/
 
 /**
  * _cd - Changes the current directory of the process.

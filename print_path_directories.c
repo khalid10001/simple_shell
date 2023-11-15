@@ -4,12 +4,12 @@
  * main - Entry point for the print_path_directories program.
  * Return: Always 0.
  */
-int main(void)
+/* int main(void)
 {
     printf("Directories in PATH:\n");
     print_path_directories();
     return 0;
-}
+    }*/ 
 
 /**
  * print_path_directories - Prints each directory in the PATH environment variable.

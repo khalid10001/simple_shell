@@ -1,4 +1,8 @@
 #include "shell.h"
+#include <stddef.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 void display_prompt(void);
 char *get_input(char *input);
@@ -38,18 +42,22 @@ void display_prompt(void)
 }
 
 /**
- * get_input - Reads a line of input from the user.
- * @input: Buffer to store the input.
- * Return: Pointer to the input buffer.
+ * get_input - Get input from the user
+ * @input: Buffer to store the input
+ * Return: Pointer to the input buffer
  */
 char *get_input(char *input)
 {
-    if (fgets(input, sizeof(input), stdin) == NULL)
-        return NULL;
+    size_t len;
 
-    size_t len = strlen(input);
-    if (len > 0 && input[len - 1] == '\n')
-        input[len - 1] = '\0'; /* remove newline */
+    printf("$ ");
+    if (getline(&input, &len, stdin) == -1)
+    {
+        if (feof(stdin))
+            exit(EXIT_SUCCESS);
+        perror("getline");
+        exit(EXIT_FAILURE);
+    }
 
     return input;
 }
