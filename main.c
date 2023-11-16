@@ -44,10 +44,9 @@ int main(int argc, char **argv, char **env)
 		{
 			if (isatty(STDIN_FILENO))
 				write(STDOUT_FILENO, "\n", 1);
-			free(commandLine);
 			exit(exitCode);
 		}
-		/*free(commandLine);*/
+		free(commandLine);
 	}
 	return (exitCode);
 }

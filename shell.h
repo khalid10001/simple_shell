@@ -30,6 +30,9 @@ void exitShell(char **args, char *inputLine, int exitValue);
 int executeCommand(char **command, char **programName, char **environment,
 			char *inputLine, int processID, int checker);
 char *customStrtok(char *str, const char *delimiters);
+int setenvCommand(char **args, char **env);
+int unsetenvCommand(char **args, char **env);
+int startsWith(const char *str, const char *prefix);
 
 #endif /* SHELL_H */
 
