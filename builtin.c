@@ -7,7 +7,7 @@
  * @exitCode: Exit code for the shell.
  * Return: None
  */
-void exitShell(char **args, char *line, int exitCode)
+/*void exitShell(char **args, char *line, int exitCode)
 {
 	int exitStatus = 0;
 
@@ -23,7 +23,28 @@ void exitShell(char **args, char *line, int exitCode)
 	free(line);
 	free(args);
 	exit(exitStatus);
+}*/
+void exitShell(char **args, char *line, int exitCode)
+{
+    int exitStatus = exitCode;
+
+    if (args[1] != NULL)
+    {
+        char *endptr;
+        exitStatus = strtol(args[1], &endptr, 10);
+
+        if (*endptr != '\0')
+        {
+            fprintf(stderr, "hsh: exit: %s: numeric argument required\n", args[1]);
+            exitStatus = 2;  /* Set a non-zero exit status to indicate an error */
+        }
+    }
+
+    free(line);
+    free(args);
+    exit(exitStatus);
 }
+
 
 /**
  * printEnvironment - Print all environment variables.

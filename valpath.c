@@ -11,15 +11,14 @@ int findExecutablePath(char **command, char **environment)
 	char *token = NULL, *relativePath = NULL, *absolutePath = NULL;
 	size_t commandLength, tokenLength;
 	struct stat statResult;
-	(void) environment;
 
-	/* Check if the command is an absolute path 
+	/* Check if the command is an absolute path */
 	if (stat(*command, &statResult) == 0)
-		return (-1);*/
-	/* Get the PATH variable from the environment 
+		return (-1);
+	/* Get the PATH variable from the environment */
 	relativePath = getPath(environment);
 	if (!relativePath)
-		return (-1);*/
+		return (-1);
 	/* Tokenize the PATH variable and search for the executable */
 	for (token = customStrtok(relativePath, ":"),
 			commandLength = getStringLength(*command);
@@ -34,9 +33,9 @@ int findExecutablePath(char **command, char **environment)
 			free(relativePath);
 			return (-1);
 		}
-		/*absolutePath = copyString(absolutePath, token);
+		absolutePath = copyString(absolutePath, token);
 		concatenateStrings(absolutePath, "/");
-		concatenateStrings(absolutePath, *command);*/
+		concatenateStrings(absolutePath, *command);
 		if (stat(absolutePath, &statResult) == 0)
 		{
 			*command = absolutePath;
