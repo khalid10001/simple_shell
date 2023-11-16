@@ -3,9 +3,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 void display_prompt(void);
-char *get_input(char *input);
+char *get_input(void);
 int execute_command(const char *command);
 
 /**
@@ -14,13 +16,13 @@ int execute_command(const char *command);
  */
 int main(void)
 {
-    char input[MAX_INPUT_SIZE];
+    char *input;
 
     while (1)
     {
         display_prompt();
 
-        if (get_input(input) == NULL)
+        if ((input = get_input()) == NULL)
         {
             printf("\n");
             break; /* EOF (Ctrl+D) detected */
@@ -28,6 +30,8 @@ int main(void)
 
         if (execute_command(input) == -1)
             fprintf(stderr, "Error executing command: %s\n", input);
+
+        free(input); /* Free the memory allocated by getline */
     }
 
     return EXIT_SUCCESS;
@@ -38,19 +42,18 @@ int main(void)
  */
 void display_prompt(void)
 {
-    printf("#cisfun$ ");
+    printf("RK-->$ ");
 }
 
 /**
- * get_input - Get input from the user
- * @input: Buffer to store the input
- * Return: Pointer to the input buffer
+ * get_input - Get input from the user.
+ * Return: Pointer to the input buffer.
  */
-char *get_input(char *input)
+char *get_input(void)
 {
-    size_t len;
+    char *input = NULL;
+    size_t len = 0;
 
-    printf("$ ");
     if (getline(&input, &len, stdin) == -1)
     {
         if (feof(stdin))
@@ -79,7 +82,6 @@ int execute_command(const char *command)
 
     if (child_pid == 0) /* Child process */
     {
-	/* Split the command string into tokens */
         char **args = (char **)malloc(2 * sizeof(char *));
         if (args == NULL)
         {
@@ -99,7 +101,11 @@ int execute_command(const char *command)
     else /* Parent process */
     {
         int status;
-        waitpid(child_pid, &status, 0);
+        if (waitpid(child_pid, &status, 0) == -1)
+        {
+            perror("waitpid");
+            return -1;
+        }
 
         if (WIFEXITED(status) && WEXITSTATUS(status) == 127)
             fprintf(stderr, "%s: command not found\n", command);

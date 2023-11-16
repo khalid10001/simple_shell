@@ -39,7 +39,7 @@ typedef struct path_list {
 } path_list_t;
 
 /* Function prototypes */
-void *add_node_end(path_list_t **head, char *directory);
+path_list_t *add_node_end(path_list_t **head, char *directory);
 void print_path_list(path_list_t *head);
 void free_path_list(path_list_t *head);
 
