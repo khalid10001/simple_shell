@@ -13,7 +13,7 @@
 int executeCommand(char **command, char **programName, char **environment,
 			char *inputLine, int processID, int checker)
 {
-	pid_t childPID;
+	/*pid_t childPID;
 	int status;
 	char *notFoundFormat = "%s: %d: %s: not found\n";
 
@@ -38,5 +38,45 @@ int executeCommand(char **command, char **programName, char **environment,
 		if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
 			return (WEXITSTATUS(status));
 	}
-	return (0);
+	return (0);*/
+	pid_t childPID = fork();
+	(void) programName;
+        (void) inputLine;
+        (void) processID;
+        (void) checker;
+
+if (childPID == -1)
+{
+    perror("fork");
+    exit(EXIT_FAILURE);
+}
+
+if (childPID == 0)
+{
+    if (execve(command[0], command, environment) == -1)
+    {
+        /* Handle the case where execve fails*/
+        perror("execve");
+        _exit(EXIT_FAILURE);
+    }
+
+    _exit(EXIT_SUCCESS);
+}
+else
+{
+    int status;
+    if (waitpid(childPID, &status, 0) == -1)
+    {
+        perror("waitpid");
+        exit(EXIT_FAILURE);
+    }
+
+    if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
+    {
+        /* Handle non-zero exit status */
+        return WEXITSTATUS(status);
+    }
+}
+return 0;
+
 }

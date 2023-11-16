@@ -25,10 +25,8 @@ int main(int argc, char **argv, char **env)
 				free(commandLine);
 				continue;
 			}
-			/*if ((!compareStrings(userCommand[0], "exit")) &&
-					userCommand[1] == NULL)*/
-			if (userCommand[0] != NULL && strcmp(userCommand[0],
-						"exit") == 0 && userCommand[1] == NULL)
+			if ((!compareStrings(userCommand[0], "exit")) &&
+					userCommand[1] == NULL)
 				exitShell(userCommand, commandLine, exitCode);
 			if (!compareStrings(userCommand[0], "env"))
 				printEnvironment(env);
@@ -46,9 +44,10 @@ int main(int argc, char **argv, char **env)
 		{
 			if (isatty(STDIN_FILENO))
 				write(STDOUT_FILENO, "\n", 1);
+			free(commandLine);
 			exit(exitCode);
 		}
-		free(commandLine);
+		/*free(commandLine);*/
 	}
 	return (exitCode);
 }

@@ -11,7 +11,7 @@ char *getCommandInput(void)
 
 	/* Print the shell prompt if STDIN is a terminal */
 	if (isatty(STDIN_FILENO))
-		write(STDOUT_FILENO, "KR$ ", 4);
+		write(STDOUT_FILENO, "$ ", 2);
 
 	/* Read the input line from the user */
 	if (getline(&inputLine, &bufferSize, stdin) == -1)
