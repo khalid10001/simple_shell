@@ -1,61 +1,38 @@
 #ifndef SHELL_H
 #define SHELL_H
 
+#define _GNU_SOURCE
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
+#include <errno.h>
 
-#define MAX_INPUT_SIZE 1024
-
-
-void display_prompt(void);
-void *get_input(void);
-
-int execute_command(const char *command);
-
-/* 0. printenv with environ */
-void print_env(void);
-
-/* 1. env vs environ */
-void env_vs_environ(void);
 extern char **environ;
-int _setenviron(const char *name, const char *value, int overwrite);
-int _unsetenviron(const char *name);
-/* 2. getenv() */
-char *_getenv(const char *name);
 
-/* 3. PATH */
-void print_path_directories(void);
+int compareStrings(char *s1, char *s2);
+size_t compareStringsN(char *s1, char *s2, size_t n);
+int getStringLength(char *s);
+char *copyString(char *dest, char *src);
+char *concatenateStrings(char *dest, char *src);
+int customPutchar(char c);
 
-/* 4. PATH */
-typedef struct PathNode {
-    char *directory;
-    struct PathNode *next;
-} PathNode;
-
-PathNode *build_path_linked_list(void);
-
-/* Definition of a structure to represent a node in the linked list */
-typedef struct path_list {
-    char *directory;
-    struct path_list *next;
-} path_list_t;
-
-/* Function prototypes */
-path_list_t *add_node_end(path_list_t **head, char *directory);
-void print_path_list(path_list_t *head);
-void free_path_list(path_list_t *head);
-
-/* 5. setenv */
-int _setenv(const char *name, const char *value, int overwrite);
-
-/* 6. unsetenv */
-int _unsetenv(const char *name);
-
-/* 10. cd */
-void cd_builtin(char *directory);
+char *getPath(char **env);
+int findExecutablePath(char **command, char **environment);
+char *getCommandInput(void);
+void printEnvironment(char **env);
+char **tokenizeString(char *userInput);
+void exitShell(char **args, char *inputLine, int exitValue);
+int executeCommand(char **command, char **programName, char **environment,
+			char *inputLine, int processID, int checker);
+char *customStrtok(char *str, const char *delimiters);
+int setenvCommand(char **args, char **env);
+int unsetenvCommand(char **args, char **env);
+int startsWith(const char *str, const char *prefix);
 
 #endif /* SHELL_H */
+
