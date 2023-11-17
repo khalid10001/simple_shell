@@ -12,8 +12,7 @@
 
 
 void display_prompt(void);
-void *get_input(void);
-
+char *get_input(void);
 int execute_command(const char *command);
 
 /* 0. printenv with environ */

@@ -100,24 +100,14 @@ int execute_command(const char *command)
 
     if (child_pid == 0) /* Child process */
     {
-        char **args = malloc(2 * sizeof(char *));
-        if (args == NULL)
-        {
-            perror("malloc");
-            exit(EXIT_FAILURE);
-        }
+        char *args[] = {(char *)command, NULL};
+        char **command_args = args;
 
-        args[0] = (char *)command;
-        args[1] = NULL;
-
-        if (execvp(command, args) == -1)
+        if (execvp(command, command_args) == -1)
         {
             perror(command);
-            free(args);
             exit(EXIT_FAILURE);
         }
-
-        free(args);
     }
     else /* Parent process */
     {
