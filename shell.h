@@ -33,6 +33,7 @@ char *customStrtok(char *str, const char *delimiters);
 int setenvCommand(char **args, char **env);
 int unsetenvCommand(char **args, char **env);
 int startsWith(const char *str, const char *prefix);
-
+int setEnvVariable(char *variable, char *value, char **env);
+int unsetEnvVariable(char *variable, char **env);
 #endif /* SHELL_H */
 
