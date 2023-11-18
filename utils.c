@@ -8,6 +8,7 @@
  */
 char *concatenateStrings(char *destination, char *source)
 {
+
 	int destIndex;
 	int sourceIndex = 0;
 
@@ -103,4 +104,41 @@ char *copyString(char *destination, char *source)
 	*(destination + i) = *(source + i);
 
 	return (destination);
+}
+
+
+int changeDirectory(char **args)
+{
+    char *newDir = args[1];
+    char *oldDir;
+       
+    if (newDir == NULL || compareStrings(newDir, "~") == 0)
+    {
+
+        newDir = getenv("HOME");
+    }
+    else if (compareStrings(newDir, "-") == 0)
+    {
+
+        newDir = getenv("OLDPWD");
+    }
+
+
+    oldDir = getcwd(NULL, 0);
+
+
+    if (chdir(newDir) != 0)
+    {
+        perror("cd");
+        return 1;
+    }
+
+ 
+    setenv("OLDPWD", oldDir, 1);
+    setenv("PWD", getcwd(NULL, 0), 1);
+
+ 
+    free(oldDir);
+
+    return 0;
 }

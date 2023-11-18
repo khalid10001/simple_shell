@@ -28,7 +28,7 @@ int main(int argc, char **argv, char **env)
 			
             if (!compareStrings(userCommand[0], "cd"))
             {
-                changeDirectory(userCommand);
+                changeDirectory(userCommand, env);
             }
 	    else if ((!compareStrings(userCommand[0], "exit")) &&
 					userCommand[1] == NULL)
