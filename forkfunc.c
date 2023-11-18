@@ -16,6 +16,7 @@ int executeCommand(char **command, char **programName, char **environment,
 	pid_t childPID;
 	int status;
 	char *notFoundFormat = "%s: %d: %s: not found\n";
+	(void) checker;
 
 	childPID = fork();
 
@@ -24,8 +25,8 @@ int executeCommand(char **command, char **programName, char **environment,
 		if (execve(command[0], command, environment) == -1)
 		{
 			fprintf(stderr, notFoundFormat, programName[0], processID, command[0]);
-			if (!checker || checker)
-				free(command[0]);
+		/*	if (!checker || checker)
+				free(command[0]);*/
 			free(command);
 			free(inputLine);
 			exit(errno);

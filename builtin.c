@@ -16,6 +16,7 @@ void exitShell(char **args, char *line, int exitCode)
 		free(line);
 		free(args);
 		exit(exitCode);
+		/*exitStatus = atoi(args[1]);*/
 	}
 
 	exitStatus = atoi(args[1]);
