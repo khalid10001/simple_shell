@@ -38,6 +38,30 @@ int main(int argc, char **argv, char **env)
 				if (pathResult == 0)
 					free(userCommand[0]);
 			}
+			if (compareStrings(userCommand[0], "setenv") == 0)
+{
+    if (userCommand[1] && userCommand[2])
+    {
+        if (setEnvVariable(userCommand[1], userCommand[2], env) == -1)
+            fprintf(stderr, "Error: Unable to set environment variable\n");
+    }
+    else
+    {
+        fprintf(stderr, "Usage: setenv VARIABLE VALUE\n");
+    }
+}
+else if (compareStrings(userCommand[0], "unsetenv") == 0)
+{
+    if (userCommand[1])
+    {
+        if (unsetEnvVariable(userCommand[1], env) == -1)
+            fprintf(stderr, "Error: Unable to unset environment variable\n");
+    }
+    else
+    {
+        fprintf(stderr, "Usage: unsetenv VARIABLE\n");
+    }
+}
 			free(userCommand);
 		}
 		else
