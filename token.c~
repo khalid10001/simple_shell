@@ -21,7 +21,7 @@ char **tokenizeString(char *userInput)
     {
         if (userInput[i] == ' ')
         {
-	  while (userInput[i] == ' ') /* Skip consecutive spaces */
+            while (userInput[i] == ' ') // Skip consecutive spaces
                 i++;
             continue;
         }
