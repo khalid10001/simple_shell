@@ -1,5 +1,10 @@
 #include "shell.h"
 
+/**
+ * _myexit - a function that handles the 'exit' command in the shell.
+ * @info: A pointer to a structure containing information about the program.
+ * Return: 1 if there is an exit argument with an illegal number, -2 otherwise.
+ */
 int _myexit(info_t *info)
 {
 	int check_ex;
@@ -22,6 +27,11 @@ int _myexit(info_t *info)
 	return (-2);
 }
 
+/**
+ * _mycd - a function that handles the 'cd' command in the shell.
+ * @info: A pointer to a structure containing information about the program.
+ * Return: 0 on successful directory change, 1 if an error occurs.
+ */
 int _mycd(info_t *info)
 {
 	char *str, *direc, buf[1024];
@@ -65,6 +75,11 @@ int _mycd(info_t *info)
 	return (0);
 }
 
+/**
+ * _myhelp - a function that displays a help message for the shell.
+ * @info: A pointer to a structure containing information about the program.
+ * Return: 0 always.
+ */
 int _myhelp(info_t *info)
 {
 	char **arg_arr;

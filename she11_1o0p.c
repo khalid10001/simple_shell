@@ -1,5 +1,12 @@
 #include "shell.h"
 
+/**
+ * hsh - a function that the main shell loop that handles user input,
+ *		executes commands, and manages built-ins.
+ * @info: Pointer to the shell's information structure.
+ * @av: Command-line arguments passed to the shell.
+ * Return: The return status of the last executed command.
+ */
 int hsh(info_t *info, char **av)
 {
 	ssize_t z = 0;
@@ -36,6 +43,12 @@ int hsh(info_t *info, char **av)
 	return (bltin_ret);
 }
 
+/**
+ * find_builtin - a function that finds and executes a built-in command,
+ *		if present.
+ * @info: Pointer to the shell's information structure.
+ * Return: The return status of the built-in command.
+ */
 int find_builtin(info_t *info)
 {
 	int x, bltin_ret = -1;
@@ -61,6 +74,10 @@ int find_builtin(info_t *info)
 	return (bltin_ret);
 }
 
+/**
+ * find_cmd - a function that finds and executes an external command.
+ * @info: Pointer to the shell's information structure.
+ */
 void find_cmd(info_t *info)
 {
 	char *pth = NULL;
@@ -97,6 +114,11 @@ void find_cmd(info_t *info)
 	}
 }
 
+/**
+ * fork_cmd - a function that forks a child process to execute
+ *		an external command.
+ * @info: Pointer to the shell's information structure.
+ */
 void fork_cmd(info_t *info)
 {
 	pid_t chd_pid;

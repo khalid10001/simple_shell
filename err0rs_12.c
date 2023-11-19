@@ -1,5 +1,10 @@
 #include "shell.h"
 
+/**
+ * _erratoi - a function that converts a string to an integer.
+ * @s: The string to be converted to an integer.
+ * Return: The converted integer value, or -1 if an error occurs.
+ */
 int _erratoi(char *s)
 {
 	int k = 0;
@@ -22,6 +27,12 @@ int _erratoi(char *s)
 	return (res);
 }
 
+/**
+ * print_error - a function that prints an error message to the standard
+ *		error stream.
+ * @info: A pointer to a structure containing information about the program.
+ * @estr: The error message to be printed.
+ */
 void print_error(info_t *info, char *estr)
 {
 	_eputs(info->fname);
@@ -33,6 +44,12 @@ void print_error(info_t *info, char *estr)
 	_eputs(estr);
 }
 
+/**
+ * print_d - a function that prints an integer to the specified file descriptor
+ * @input: The integer to be printed.
+ * @fd: The file descriptor to which the integer should be written.
+ * Return: The number of characters written.
+ */
 int print_d(int input, int fd)
 {
 	int (*__putchar)(char) = _putchar;
@@ -65,6 +82,14 @@ int print_d(int input, int fd)
 	return (i);
 }
 
+/**
+ * convert_number - a function that converts a number to a string with
+ *	specified base and flags.
+ * @num: The number to be converted.
+ * @base: The base to use for the conversion.
+ * @flags: Flags for the conversion.
+ * Return: A pointer to the converted string.
+ */
 char *convert_number(long int num, int base, int flags)
 {
 	static char *ar;
@@ -92,6 +117,10 @@ char *convert_number(long int num, int base, int flags)
 	return (p);
 }
 
+/**
+ * remove_comments - a function that removes comments from a string.
+ * @buf: The string from which comments should be removed.
+ */
 void remove_comments(char *buf)
 {
 	int x;

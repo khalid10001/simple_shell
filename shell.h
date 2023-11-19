@@ -37,10 +37,11 @@
 extern char **environ;
 
 /**
- * struct liststr - singly linked list
- * @num: the number field
- * @str: a string
- * @next: points to the next node
+ * struct liststr - Structure representing a linked list node
+ *	containing a number, a string, and a pointer to the next node.
+ * @num: Number associated with the node.
+ * @str: String associated with the node.
+ * @next: Pointer to the next node in the list.
  */
 typedef struct liststr
 {
@@ -50,26 +51,26 @@ typedef struct liststr
 } list_t;
 
 /**
- * struct passinfo - contains pseudo-arguments to pass into a function,
- * allowing uniform prototype for a function pointer struct
- * @arg: a string generated from getline containing arguments
- * @argv: an array of strings generated from args
- * @path: a string path for the current command
- * @argc: the argument count
- * @line_count: the error count
- * @err_num: the error code for exit()s
- * @linecount_flag: if on count this line of input
- * @fname: the program filename
- * @env: linked list local copy of environ
- * @environ: custom modified copy of environ from LL env
- * @history: the history node
- * @alias: the alias node
- * @env_changed: on if environ was changed
- * @status: the return status of the last exec'd command
- * @cmd_buf: address of pointer to cmd_buf, on if chaining
- * @cmd_buf_type: CMD_type ||, &&, ;
- * @readfd: the fd from which to read line input
- * @histcount: the history line number count
+ * struct passinfo - Structure representing information about the shell's
+ *		state and configuration.
+ * @arg: Raw input argument string.
+ * @argv: Array of strings representing command-line arguments.
+ * @path: Path to the executable for the current command.
+ * @argc: Number of command-line arguments.
+ * @line_count: Count of lines processed.
+ * @err_num: Error number for the current command.
+ * @linecount_flag: Flag indicating whether line count tracking is active.
+ * @fname: File name associated with the command.
+ * @env: Linked list of environment variables.
+ * @environ: Array of strings representing the environment.
+ * @history: Linked list for command history.
+ * @alias: Linked list for command aliases.
+ * @env_changed: Flag indicating whether the environment has changed.
+ * @status: Status code of the last executed command.
+ * @cmd_buf: Pointer to the command chain buffer for memory management.
+ * @cmd_buf_type: Type of command chain.
+ * @readfd: File descriptor for reading input.
+ * @histcount: Count of command history entries.
  */
 typedef struct passinfo
 {
@@ -87,8 +88,8 @@ typedef struct passinfo
 	char **environ;
 	int env_changed;
 	int status;
-	char **cmd_buf; /* pointer to cmd ; chain buffer, for memory management */
-	int cmd_buf_type; /* CMD_type ||, &&, ; */
+	char **cmd_buf;
+	int cmd_buf_type;
 	int readfd;
 	int histcount;
 } info_t;
@@ -98,9 +99,10 @@ typedef struct passinfo
 	0, 0, 0}
 
 /**
- * struct builtin - contains a builtin string and related function
- * @type: the builtin command flag
- * @func: the function
+ * struct builtin - Structure representing a built-in command and
+ *		its associated function.
+ * @type: String representing the built-in command.
+ * @func: Pointer to the function handling the built-in command.
  */
 typedef struct builtin
 {

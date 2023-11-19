@@ -1,5 +1,12 @@
 #include "shell.h"
 
+/**
+ * get_history_file - a function that constructs the full path to the
+ *			history file.
+ * @info: A pointer to a structure containing information about the program.
+ * Return: A dynamically allocated string containing the full path to the
+ *		history file, or NULL on failure.
+ */
 char *get_history_file(info_t *info)
 {
 	char *buffer, *direc;
@@ -19,6 +26,12 @@ char *get_history_file(info_t *info)
 	return (buffer);
 }
 
+/**
+ * write_history - a function that writes the command history to the
+ *			history file.
+ * @info: A pointer to a structure containing information about the program.
+ * Return: 1 on success, -1 on failure.
+ */
 int write_history(info_t *info)
 {
 	ssize_t fd;
@@ -46,6 +59,11 @@ int write_history(info_t *info)
 	return (1);
 }
 
+/**
+ * read_history - a function that reads command history from the history file.
+ * @info: A pointer to a structure containing information about the program.
+ * Return: The number of history entries read, or 0 on failure.
+ */
 int read_history(info_t *info)
 {
 	int x, end = 0, lincoun = 0;
@@ -90,6 +108,13 @@ int read_history(info_t *info)
 	return (info->histcount);
 }
 
+/**
+ * build_history_list - a function that adds a command to the history list.
+ * @info: A pointer to a structure containing information about the program.
+ * @buf: A pointer to the command to be added to the history.
+ * @linecount: The line count associated with the command.
+ * Return: 0 on success.
+ */
 int build_history_list(info_t *info, char *buf, int linecount)
 {
 	list_t *nd = NULL;
@@ -105,6 +130,12 @@ int build_history_list(info_t *info, char *buf, int linecount)
 	return (0);
 }
 
+/**
+ * renumber_history - a function that renews the line numbers for history
+ *			entries.
+ * @info: A pointer to a structure containing information about the program.
+ * Return: The total number of history entries.
+ */
 int renumber_history(info_t *info)
 {
 	list_t *nd = info->history;

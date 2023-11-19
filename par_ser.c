@@ -1,5 +1,12 @@
 #include "shell.h"
 
+/**
+ * is_cmd -  a function that checks if a given path corresponds to a
+ *		regular file.
+ * @info: Pointer to the info_t structure (unused).
+ * @path: The path to be checked.
+ * Return: 1 if the path corresponds to a regular file, 0 otherwise.
+ */
 int is_cmd(info_t *info, char *path)
 {
 	struct stat st;
@@ -15,6 +22,14 @@ int is_cmd(info_t *info, char *path)
 	return (0);
 }
 
+/**
+ * dup_chars - a function that duplicates a portion of characters
+ *	from a string.
+ * @pathstr: The original string to extract characters from.
+ * @start: The starting index of the substring.
+ * @stop: The stopping index (exclusive) of the substring.
+ * Return: A pointer to the duplicated substring.
+ */
 char *dup_chars(char *pathstr, int start, int stop)
 {
 	static char buffer[1024];
@@ -27,6 +42,15 @@ char *dup_chars(char *pathstr, int start, int stop)
 	return (buffer);
 }
 
+/**
+ * find_path - a function that finds the full path of a command within a
+ *		given PATH string.
+ * @info: Pointer to the info_t structure (unused).
+ * @pathstr: The PATH string to search for the command.
+ * @cmd: The command to find.
+ * Return: A pointer to the full path of the command if found,
+ *		or NULL if not found.
+ */
 char *find_path(info_t *info, char *pathstr, char *cmd)
 {
 	int a = 0, current_pos = 0;

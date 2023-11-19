@@ -1,5 +1,13 @@
 #include "shell.h"
 
+/**
+ * _strncpy - a function that copies up to 'n' characters from the source
+ *		string to the destination.
+ * @dest: The destination string.
+ * @src: The source string.
+ * @n: The maximum number of characters to copy.
+ * Return: A pointer to the destination string.
+ */
 char *_strncpy(char *dest, char *src, int n)
 {
 	int a, b;
@@ -23,6 +31,14 @@ char *_strncpy(char *dest, char *src, int n)
 	return (str);
 }
 
+/**
+ * _strncat - a function that concatenates up to 'n' characters from the source
+ *		string to the destination.
+ * @dest: The destination string.
+ * @src: The source string.
+ * @n: The maximum number of characters to concatenate.
+ * Return: A pointer to the destination string.
+ */
 char *_strncat(char *dest, char *src, int n)
 {
 	int a, b;
@@ -43,6 +59,13 @@ char *_strncat(char *dest, char *src, int n)
 	return (str);
 }
 
+/**
+ * _strchr - afunction that locates the first occurrence of a character
+ *		in a string.
+ * @s: The string to search.
+ * @c: The character to locate.
+ * Return: A pointer to the first occurrence of 'c' in 's' or NULL if not found
+ */
 char *_strchr(char *s, char c)
 {
 	do {

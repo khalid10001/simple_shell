@@ -1,5 +1,13 @@
 #include "shell.h"
 
+/**
+ * strtow - a function that splits a string into an array of strings based
+ *		on a set of delimiter characters.
+ * @str: The input string to be split.
+ * @d: The delimiter characters used for splitting.
+ * Return: An array of strings, or NULL if the input is invalid
+ *	or if memory allocation fails.
+ */
 char **strtow(char *str, char *d)
 {
 	int a, b, x, z, numwords = 0;
@@ -41,6 +49,14 @@ char **strtow(char *str, char *d)
 	return (s);
 }
 
+/**
+ * strtow2 - a function that splits a string into an array of strings based on
+ *		a single delimiter character.
+ * @str: The input string to be split.
+ * @d: The single delimiter character used for splitting.
+ * Return: An array of strings, or NULL if the input is invalid
+ *	or if memory allocation fails.
+ */
 char **strtow2(char *str, char d)
 {
 	int a, b, x, z, numwords = 0;

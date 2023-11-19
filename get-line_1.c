@@ -1,11 +1,19 @@
 #include "shell.h"
 
+/**
+ * input_buf - a function that reads input from the standard input and updates
+ *		the buffer.
+ * @info: A pointer to a structure containing information about the program.
+ * @buf: A pointer to the buffer where input is stored.
+ * @len: A pointer to the size of the buffer.
+ * Return: The number of characters read, or -1 if end-of-file is encountered.
+ */
 ssize_t input_buf(info_t *info, char **buf, size_t *len)
 {
 	ssize_t z = 0;
 	size_t len_p = 0;
 
-	if (!*len) /* If the buffer is empty, it is filled. */
+	if (!*len)
 	{
 		/* bfree((void **)info->cmd_buf); */
 		free(*buf);
@@ -36,45 +44,58 @@ ssize_t input_buf(info_t *info, char **buf, size_t *len)
 	return (z);
 }
 
+/**
+ * get_input - a function that processes input, handles command chaining,
+ *		and updates the buffer.
+ * @info: A pointer to a structure containing information about the program.
+ * Return: The number of characters read, or -1 if end-of-file is encountered.
+ */
 ssize_t get_input(info_t *info)
 {
-	static char *buffer; /* The ';' command chain buffer */
+	static char *buffer;
 	static size_t x, y, length;
 	ssize_t z = 0;
 	char **buffer_p = &(info->arg), *p;
 
 	_putchar(BUF_FLUSH);
 	z = input_buf(info, &buffer, &length);
-	if (z == -1) /* End of File (EOF) */
+	if (z == -1)
 		return (-1);
-	if (length) /* Commands are remaining in the chain buffer */
+	if (length)
 	{
-		y = x; /* Initialize a new iterator to the current buffer position */
-		p = buffer + x; /* Get a pointer for return */
+		y = x;
+		p = buffer + x;
 
 		check_chain(info, buffer, &y, x, length);
-		while (y < length) /* Iterate to the semicolon or the end. */
+		while (y < length)
 		{
 			if (is_chain(info, buffer, &y))
 			break;
 			y++;
 		}
 
-		x = y + 1; /* Increment beyond the null ';' character. */
-		if (x >= length) /* Reached the end of the buffer? */
+		x = y + 1;
+		if (x >= length)
 		{
-			x = length = 0; /* Reset the position and length. */
+			x = length = 0;
 			info->cmd_buf_type = CMD_NORM;
 		}
 
-		*buffer_p = p; /* Pass back a pointer to the current command position. */
-		return (_strlen(p)); /* Return the length of the current command. */
+		*buffer_p = p;
+		return (_strlen(p));
 	}
 
-	*buffer_p = buffer; /* Otherwise, if it's not a chain, pass back the buffer */
-	return (z); /* Return the length of the buffer from _getline(). */
+	*buffer_p = buffer;
+	return (z);
 }
 
+/**
+ * read_buf - a function reads data from the file descriptor into a buffer.
+ * @info: A pointer to a structure containing information about the program.
+ * @buf: A pointer to the buffer where data is read.
+ * @i: A pointer to the size of the buffer.
+ * Return: The number of characters read, or -1 on failure.
+ */
 ssize_t read_buf(info_t *info, char *buf, size_t *i)
 {
 	ssize_t z = 0;
@@ -87,6 +108,14 @@ ssize_t read_buf(info_t *info, char *buf, size_t *i)
 	return (z);
 }
 
+/**
+ * _getline - a function that reads a line from the input, handling buffer
+ *		reallocation.
+ * @info: A pointer to a structure containing information about the program.
+ * @ptr: A pointer to the buffer for storing the input line.
+ * @length: A pointer to the length of the buffer.
+ * Return: The total number of characters read, or -1 on End of File (EOF).
+ */
 int _getline(info_t *info, char **ptr, size_t *length)
 {
 	static char buffer[READ_BUF_SIZE];
@@ -108,7 +137,7 @@ int _getline(info_t *info, char **ptr, size_t *length)
 	ch = _strchr(buffer + x, '\n');
 	a = ch ? 1 + (unsigned int)(ch - buffer) : len;
 	new_p = _realloc(p, sum, sum ? sum + a : a + 1);
-	if (!new_p) /* MALLOC FAILURE! */
+	if (!new_p)
 		return (p ? free(p), -1 : -1);
 
 	if (sum)
@@ -126,6 +155,10 @@ int _getline(info_t *info, char **ptr, size_t *length)
 	return (sum);
 }
 
+/**
+ * sigintHandler - a function that signal handler for handling SIGINT (Ctrl+C).
+ * @sig_num: The signal number.
+ */
 void sigintHandler(__attribute__((unused))int sig_num)
 {
 	_puts("\n");

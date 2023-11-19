@@ -1,5 +1,9 @@
 #include "shell.h"
 
+/**
+ * _eputs - a function that prints a string to the standard error stream.
+ * @str: The string to be printed to the standard error stream.
+ */
 void _eputs(char *str)
 {
 	int x = 0;
@@ -13,6 +17,12 @@ void _eputs(char *str)
 	}
 }
 
+/**
+ * _eputchar - a function that prints a character to the standard error stream
+ *		or flushes the buffer.
+ * @c: The character to be printed or BUF_FLUSH to flush the buffer.
+ * Return: 1 if successful, 0 otherwise.
+ */
 int _eputchar(char c)
 {
 	static int k;
@@ -28,6 +38,13 @@ int _eputchar(char c)
 	return (1);
 }
 
+/**
+ * _putfd - a function that prints a character to the specified
+ *		file descriptor or flushes the buffer.
+ * @c: The character to be printed or BUF_FLUSH to flush the buffer.
+ * @fd: The file descriptor to which the character or buffer should be written.
+ * Return: 1 if successful, 0 otherwise.
+ */
 int _putfd(char c, int fd)
 {
 	static int k;
@@ -43,6 +60,12 @@ int _putfd(char c, int fd)
 	return (1);
 }
 
+/**
+ * _putsfd - a function that prints a string to the specified file descriptor.
+ * @str: The string to be printed to the specified file descriptor.
+ * @fd: The file descriptor to which the string should be written.
+ * Return: The number of characters written.
+ */
 int _putsfd(char *str, int fd)
 {
 	int k = 0;

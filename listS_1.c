@@ -1,5 +1,12 @@
 #include "shell.h"
 
+/**
+ * add_node - a function adds a new node at the beginning of a linked list.
+ * @head: A pointer to the head of the linked list.
+ * @str: The string to be stored in the new node.
+ * @num: The number associated with the new node.
+ * Return: A pointer to the newly created node, or NULL on failure.
+ */
 list_t *add_node(list_t **head, const char *str, int num)
 {
 	list_t *nw_hd;
@@ -31,6 +38,13 @@ list_t *add_node(list_t **head, const char *str, int num)
 	return (nw_hd);
 }
 
+/**
+ * add_node_end - a function that adds a new node at the end of a linked list.
+ * @head: A pointer to the head of the linked list.
+ * @str: The string to be stored in the new node.
+ * @num: The number associated with the new node.
+ * Return: A pointer to the newly created node, or NULL on failure.
+ */
 list_t *add_node_end(list_t **head, const char *str, int num)
 {
 	list_t *nw_nd, *nd;
@@ -70,6 +84,11 @@ list_t *add_node_end(list_t **head, const char *str, int num)
 	return (nw_nd);
 }
 
+/**
+ * print_list_str - a function that prints the strings in a linked list.
+ * @h: A pointer to the head of the linked list.
+ * Return: The number of nodes in the linked list.
+ */
 size_t print_list_str(const list_t *h)
 {
 	size_t x = 0;
@@ -85,6 +104,13 @@ size_t print_list_str(const list_t *h)
 	return (x);
 }
 
+/**
+ * delete_node_at_index - a function that deletes a node at a specific index
+ *			in a linked list.
+ * @head: A pointer to the head of the linked list.
+ * @index: The index of the node to be deleted.
+ * Return: 1 if successful, 0 otherwise.
+ */
 int delete_node_at_index(list_t **head, unsigned int index)
 {
 	list_t *nd, *prev_nd;
@@ -119,6 +145,10 @@ int delete_node_at_index(list_t **head, unsigned int index)
 	return (0);
 }
 
+/**
+ * free_list - a function that frees the memory allocated for a linked list.
+ * @head_ptr: A pointer to the head of the linked list.
+ */
 void free_list(list_t **head_ptr)
 {
 	list_t *nd, *nxt_nd, *hd;

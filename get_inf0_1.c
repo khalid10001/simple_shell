@@ -1,5 +1,9 @@
 #include "shell.h"
 
+/**
+ * clear_info - a function that clears information in the provided structure.
+ * @info: A pointer to a structure containing information about the program.
+ */
 void clear_info(info_t *info)
 {
 	info->arg = NULL;
@@ -8,6 +12,12 @@ void clear_info(info_t *info)
 	info->argc = 0;
 }
 
+/**
+ * set_info - sets information in the provided info_t structure
+ *		based on command line arguments.
+ * @info: A pointer to a structure containing information about the program.
+ * @av: An array of strings representing command line arguments.
+ */
 void set_info(info_t *info, char **av)
 {
 	int x = 0;
@@ -34,6 +44,12 @@ void set_info(info_t *info, char **av)
 	}
 }
 
+/**
+ * free_info -  function that frees memory allocated in the provided structure.
+ * @info: A pointer to a structure containing information about the program.
+ * @all: If true, frees all allocated resources; otherwise,
+ *		only basic fields are cleared.
+ */
 void free_info(info_t *info, int all)
 {
 	ffree(info->argv);
