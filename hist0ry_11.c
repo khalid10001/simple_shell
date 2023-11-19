@@ -1,192 +1,120 @@
 #include "shell.h"
 
-/**
- * get_history_file - Retrieves the path to the shell's history file.
- * @info: A structure containing potential arguments. Used to maintain the constant function prototype.
- *
- * This function constructs the path to the shell's history file by appending the file name (HIST_FILE)
- * to the user's home directory (retrieved from the environment variables). It allocates memory for the path
- * and returns it as a dynamically allocated string.
- *
- * @param info - The structure containing potential arguments.
- * @return - A dynamically allocated string containing the history file path, or NULL on failure.
- */
 char *get_history_file(info_t *info)
 {
-    char *buf, *dir;
+	char *buffer, *direc;
 
-    dir = _getenv(info, "HOME=");
-    if (!dir)
-        return NULL;
+	direc = _getenv(info, "HOME=");
+	if (!direc)
+		return (NULL);
 
-    buf = malloc(sizeof(char) * (_strlen(dir) + _strlen(HIST_FILE) + 2));
-    if (!buf)
-        return NULL;
+	buffer = malloc(sizeof(char) * (_strlen(direc) + _strlen(HIST_FILE) + 2));
+	if (!buffer)
+		return (NULL);
+	buffer[0] = 0;
+	_strcpy(buffer, direc);
+	_strcat(buffer, "/");
+	_strcat(buffer, HIST_FILE);
 
-    buf[0] = 0;
-    _strcpy(buf, dir);
-    _strcat(buf, "/");
-    _strcat(buf, HIST_FILE);
-
-    return buf;
+	return (buffer);
 }
 
-/**
- * write_history - Writes the shell's command history to a file.
- * @info: The parameter struct.
- *
- * This function creates a new history file or overwrites an existing one, then appends each entry from
- * the history linked list to the file. It ensures that each entry is followed by a newline character.
- *
- * @param info - The structure containing potential arguments.
- * @return - 1 on success, -1 on failure.
- */
 int write_history(info_t *info)
 {
-    ssize_t fd;
-    char *filename = get_history_file(info);
-    list_t *node = NULL;
+	ssize_t fd;
+	char *fname = get_history_file(info);
+	list_t *nd = NULL;
 
-    if (!filename)
-        return -1;
+	if (!fname)
+	return (-1);
 
-    fd = open(filename, O_CREAT | O_TRUNC | O_RDWR, 0644);
-    free(filename);
+	fd = open(fname, O_CREAT | O_TRUNC | O_RDWR, 0644);
+	free(fname);
 
-    if (fd == -1)
-        return -1;
+	if (fd == -1)
+		return (-1);
 
-    for (node = info->history; node; node = node->next)
-    {
-        _putsfd(node->str, fd);
-        _putfd('\n', fd);
-    }
+	for (nd = info->history; nd; nd = nd->next)
+	{
+		_putsfd(nd->str, fd);
+		_putfd('\n', fd);
+	}
 
-    _putfd(BUF_FLUSH, fd);
-    close(fd);
+	_putfd(BUF_FLUSH, fd);
+	close(fd);
 
-    return 1;
+	return (1);
 }
 
-/**
- * read_history - Reads the shell's command history from a file.
- * @info: The parameter struct.
- *
- * This function reads the command history from a history file and stores it in the shell's history linked list.
- * It parses each line from the file and adds it as a new entry in the history linked list.
- *
- * @param info - The structure containing potential arguments.
- * @return - The number of history entries read on success, 0 otherwise.
- */
 int read_history(info_t *info)
 {
-    int i, last = 0, linecount = 0;
-    ssize_t fd, rdlen, fsize = 0;
-    struct stat st;
-    char *buf = NULL, *filename = get_history_file(info);
+	int x, end = 0, lincoun = 0;
+	ssize_t fd, rdlength, fsize = 0;
+	struct stat st;
+	char *buffer = NULL, *fname = get_history_file(info);
 
-    if (!filename)
-        return 0;
-
-    fd = open(filename, O_RDONLY);
-    free(filename);
-
-    if (fd == -1)
-        return 0;
-
-    if (!fstat(fd, &st))
-        fsize = st.st_size;
-
-    if (fsize < 2)
-        return 0;
-
-    buf = malloc(sizeof(char) * (fsize + 1));
-
-    if (!buf)
-        return 0;
-
-    rdlen = read(fd, buf, fsize);
-    buf[fsize] = 0;
-
-    if (rdlen <= 0)
-        return free(buf), 0;
-
-    close(fd);
-
-    for (i = 0; i < fsize; i++)
-    {
-        if (buf[i] == '\n')
-        {
-            buf[i] = 0;
-            build_history_list(info, buf + last, linecount++);
-            last = i + 1;
-        }
-    }
-
-    if (last != i)
-        build_history_list(info, buf + last, linecount++);
-
-    free(buf);
-    info->histcount = linecount;
-
-    while (info->histcount-- >= HIST_MAX)
-        delete_node_at_index(&(info->history), 0);
-
-    renumber_history(info);
-
-    return info->histcount;
+	if (!fname)
+		return (0);
+	fd = open(fname, O_RDONLY);
+	free(fname);
+	if (fd == -1)
+		return (0);
+	if (!fstat(fd, &st))
+		fsize = st.st_size;
+	if (fsize < 2)
+		return (0);
+	buffer = malloc(sizeof(char) * (fsize + 1));
+	if (!buffer)
+		return (0);
+	rdlength = read(fd, buffer, fsize);
+	buffer[fsize] = 0;
+	if (rdlength <= 0)
+		return (free(buffer), 0);
+	close(fd);
+	for (x = 0; x < fsize; x++)
+	{
+		if (buffer[x] == '\n')
+		{
+			buffer[x] = 0;
+			build_history_list(info, buffer + end, lincoun++);
+			end = x + 1;
+		}
+	}
+	if (end != x)
+		build_history_list(info, buffer + end, lincoun++);
+	free(buffer);
+	info->histcount = lincoun;
+	while (info->histcount-- >= HIST_MAX)
+		delete_node_at_index(&(info->history), 0);
+	renumber_history(info);
+	return (info->histcount);
 }
 
-/**
- * build_history_list - Adds a command entry to the shell's history linked list.
- * @info: The structure containing potential arguments. Used to maintain
- * @buf: The buffer containing the command.
- * @linecount: The history line count (histcount).
- *
- * This function creates a new history entry by appending 'buf' to the history linked list,
- * along with its corresponding line count 'linecount'. It ensures the history linked list
- * is updated accordingly.
- *
- * @param info - The structure containing potential arguments.
- * @param buf - The command buffer to be added to the history.
- * @param linecount - The history line count.
- * @return - Always 0.
- */
 int build_history_list(info_t *info, char *buf, int linecount)
 {
-    list_t *node = NULL;
+	list_t *nd = NULL;
 
-    if (info->history)
-        node = info->history;
+	if (info->history)
+		nd = info->history;
 
-    add_node_end(&node, buf, linecount);
+	add_node_end(&nd, buf, linecount);
 
-    if (!info->history)
-        info->history = node;
+	if (!info->history)
+		info->history = nd;
 
-    return 0;
+	return (0);
 }
 
-/**
- * renumber_history - Updates the line numbers of history entries.
- * @info: The structure containing potential arguments. Used to maintain
- *
- * This function iterates through the shell's history linked list and renumbers the line count (num)
- * for each history entry. It also updates the histcount field with the new count of history entries.
- *
- * @param info - The structure containing potential arguments.
- * @return - The new histcount.
- */
 int renumber_history(info_t *info)
 {
-    list_t *node = info->history;
-    int i = 0;
+	list_t *nd = info->history;
+	int x = 0;
 
-    while (node)
-    {
-        node->num = i++;
-        node = node->next;
-    }
+	while (nd)
+	{
+		nd->num = x++;
+		nd = nd->next;
+	}
 
-    return (info->histcount = i);
+	return (info->histcount = x);
 }
