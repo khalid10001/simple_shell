@@ -1,81 +1,44 @@
 #include "shell.h"
 
 /**
- * main - Main function for the shell.
- * @argc: Count of arguments.
- * @argv: Array of arguments.
- * @env: Environment variables.
- * Return: _exit value (0 by default).
+ * main - Entry point shell program.
+ * @ac: Arg count
+ * @av: Arg vector
+ *
+ * Return: 0 on success, 1 on error
  */
-int main(int argc, char **argv, char **env)
+int main(int ac, char **av)
 {
-	char *commandLine = NULL, **userCommand = NULL;
-	int pathValue = 0, exitCode = 0, pathResult = 0;
-	(void)argc;
+	info_t info[] = { INFO_INIT };
+	int fd = 2;
 
-	while (1)
+	asm ("mov %1, %0\n\t"
+		"add $3, %0"
+		: "=r" (fd)
+		: "r" (fd));
+
+	if (ac == 2)
 	{
-		commandLine = getCommandInput();
-		if (commandLine)
+		fd = open(av[1], O_RDONLY);
+		if (fd == -1)
 		{
-			pathValue++;
-			userCommand = tokenizeString(commandLine);
-			if (!userCommand)
+			if (errno == EACCES)
+				exit(126);
+			if (errno == ENOENT)
 			{
-				free(commandLine);
-				continue;
+				_eputs(av[0]);
+				_eputs(": 0: Can't open ");
+				_eputs(av[1]);
+				_eputchar('\n');
+				_eputchar(BUF_FLUSH);
+				exit(127);
 			}
-			
-            if (!compareStrings(userCommand[0], "cd"))
-            {
-                changeDirectory(userCommand);
-            }
-	    else if ((!compareStrings(userCommand[0], "exit")) &&
-					userCommand[1] == NULL)
-				exitShell(userCommand, commandLine, exitCode);
-	    else if (!compareStrings(userCommand[0], "env"))
-				printEnvironment(env);
-			else
-			{
-				pathResult = findExecutablePath(&userCommand[0], env);
-				exitCode = executeCommand(userCommand, argv,
-						env, commandLine, pathValue, pathResult);
-				if (pathResult == 0)
-					free(userCommand[0]);
-			}
-			if (compareStrings(userCommand[0], "setenv") == 0)
-{
-    if (userCommand[1] && userCommand[2])
-    {
-        if (setEnvVariable(userCommand[1], userCommand[2], env) == -1)
-            fprintf(stderr, "Error: Unable to set environment variable\n");
-    }
-    else
-    {
-        fprintf(stderr, "Usage: setenv VARIABLE VALUE\n");
-    }
-}
-else if (compareStrings(userCommand[0], "unsetenv") == 0)
-{
-    if (userCommand[1])
-    {
-        if (unsetEnvVariable(userCommand[1], env) == -1)
-            fprintf(stderr, "Error: Unable to unset environment variable\n");
-    }
-    else
-    {
-        fprintf(stderr, "Usage: unsetenv VARIABLE\n");
-    }
-}
-			free(userCommand);
+			return (EXIT_FAILURE);
 		}
-		else
-		{
-			if (isatty(STDIN_FILENO))
-				write(STDOUT_FILENO, "\n", 1);
-			exit(exitCode);
-		}
-		free(commandLine);
+		info->readfd = fd;
 	}
-	return (exitCode);
+	populate_env_list(info);
+	read_history(info);
+	hsh(info, av);
+	return (EXIT_SUCCESS);
 }
